@@ -18,12 +18,18 @@ Tạo database: `CREATE DATABASE jwt_springboot3 CHARACTER SET utf8mb4;`.
 Không commit password/secret. Sinh khóa đủ 256 bit rồi đặt biến cho cửa sổ PowerShell hiện tại:
 
 ```powershell
+$securePassword = Read-Host 'Nhap mat khau MySQL' -AsSecureString
+$env:DB_PASSWORD = [System.Net.NetworkCredential]::new('', $securePassword).Password
+Remove-Variable securePassword
+
 $bytes = New-Object byte[] 32
-[System.Security.Cryptography.RandomNumberGenerator]::Fill($bytes)
+$rng = [System.Security.Cryptography.RandomNumberGenerator]::Create()
+$rng.GetBytes($bytes)
+$rng.Dispose()
+
 $env:JWT_SECRET_BASE64 = [Convert]::ToBase64String($bytes)
 $env:DB_URL = 'jdbc:mysql://localhost:3306/jwt_springboot3?serverTimezone=UTC&allowPublicKeyRetrieval=true&useSSL=false'
 $env:DB_USERNAME = 'root'
-$env:DB_PASSWORD = 'mat-khau-cua-ban'
 ```
 
 Biến tùy chọn: `SERVER_PORT` (mặc định `8005`), `JWT_EXPIRATION_MS` (mặc định `3600000`, milliseconds), `CORS_ALLOWED_ORIGIN` (mặc định `http://localhost:8005`).
@@ -35,6 +41,8 @@ mvn test
 mvn package -DskipTests
 java -jar target/jwt-springboot3-1.0.0.jar
 ```
+
+De chay lai sau `Ctrl+C`, chay lai lenh `java -jar` cuoi cung trong cung cua so PowerShell. Khi mo PowerShell moi, hay chay lai khoi bien moi truong ben tren truoc khi chay JAR. Du lieu MySQL van ton tai sau khi khoi dong lai ung dung.
 
 Mở `http://localhost:8005/login`; dừng tiến trình bằng `Ctrl+C`. Có thể dùng `mvn spring-boot:run` ở đường dẫn không có ký tự Unicode; lệnh JAR ở trên ổn định trong workspace Windows hiện tại. API: `POST /auth/signup`, `POST /auth/login`, `GET /users/me`, `GET /users` (cả hai GET cần `Authorization: Bearer <token>`). Import collection và environment mẫu trong `postman/`; chúng không chứa secret/token thật.
 
