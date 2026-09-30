@@ -1,0 +1,8 @@
+{
+  "info": { "name": "JWT Spring Boot 3", "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json" },
+  "item": [
+    { "name": "Signup", "request": { "method": "POST", "header": [{"key":"Content-Type","value":"application/json"}], "body": {"mode":"raw","raw":"{\n  \"email\": \"student@example.com\",\n  \"password\": \"secret12\",\n  \"fullName\": \"Nguyen Trung Khang\"\n}"}, "url":"{{baseUrl}}/auth/signup" } },
+    { "name": "Login", "request": { "method": "POST", "header": [{"key":"Content-Type","value":"application/json"}], "body": {"mode":"raw","raw":"{\n  \"email\": \"student@example.com\",\n  \"password\": \"secret12\"\n}"}, "url":"{{baseUrl}}/auth/login" } },
+    { "name": "Profile", "request": { "method": "GET", "header": [{"key":"Authorization","value":"Bearer {{token}}"}], "url":"{{baseUrl}}/users/me" } }
+  ]
+}
