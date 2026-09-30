@@ -32,10 +32,11 @@ Biến tùy chọn: `SERVER_PORT` (mặc định `8005`), `JWT_EXPIRATION_MS` (m
 
 ```powershell
 mvn test
-mvn spring-boot:run
+mvn package -DskipTests
+java -jar target/jwt-springboot3-1.0.0.jar
 ```
 
-Mở `http://localhost:8005/login`; dừng tiến trình bằng `Ctrl+C`. API: `POST /auth/signup`, `POST /auth/login`, `GET /users/me`, `GET /users` (cả hai GET cần `Authorization: Bearer <token>`). Import collection và environment mẫu trong `postman/`; chúng không chứa secret/token thật.
+Mở `http://localhost:8005/login`; dừng tiến trình bằng `Ctrl+C`. Có thể dùng `mvn spring-boot:run` ở đường dẫn không có ký tự Unicode; lệnh JAR ở trên ổn định trong workspace Windows hiện tại. API: `POST /auth/signup`, `POST /auth/login`, `GET /users/me`, `GET /users` (cả hai GET cần `Authorization: Bearer <token>`). Import collection và environment mẫu trong `postman/`; chúng không chứa secret/token thật.
 
 Ví dụ đăng ký:
 
